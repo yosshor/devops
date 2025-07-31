@@ -1,0 +1,23 @@
+# -- mode: ruby --
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+
+  config.vm.define "web01" do |web01|
+    web01.vm.box = "ubuntu/jammy64"
+    web01.vm.hostname = "web01"
+  web01.vm.network "private_network", ip: "192.168.56.11"
+#  web01.vm.network "public_network"
+    web01.ssh.connect_timeout = 120
+    web01.ssh.keep_alive = true
+  
+
+  web01.vm.provider "virtualbox" do |vb|
+     vb.gui = false
+     vb.memory = "2048"
+   end
+  web01.vm.provision "shell", path: "docker.sh"
+end
+
+end
