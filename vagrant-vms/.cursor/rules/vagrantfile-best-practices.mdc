@@ -1,0 +1,42 @@
+# Vagrantfile Best Practices
+
+## Configuration Standards
+- Always use Vagrant.configure("2") for version compatibility
+- Include proper Ruby mode and encoding comments at the top
+- Use descriptive comments for each configuration section
+
+## Network Configuration
+- Use private networks with specific IP ranges (192.168.56.x)
+- Configure public networks with bridge adapter for external access
+- Avoid port forwarding unless specifically required
+- Use consistent network adapter naming
+
+## Box Selection
+- Ubuntu: Use `ubuntu/focal64` (20.04) or `ubuntu/jammy64` (22.04)
+- CentOS: Use `eurolinux-vagrant/centos-stream-9`
+- Always specify exact box versions for reproducibility
+
+## Resource Allocation
+- Memory: 1024MB default, 1600MB for application servers
+- CPU: Use default unless specific requirements
+- Storage: Use default unless large storage needed
+
+## Provisioning
+- Use shell provisioning for simple setups
+- Include package installation and service configuration
+- Clean up temporary files after provisioning
+- Use inline scripts for small configurations
+
+## Provider Configuration
+- VirtualBox is the primary provider
+- Configure memory allocation in provider block
+- Disable GUI unless debugging required
+
+## File Structure
+- Each VM should have its own directory
+- Use descriptive directory names (e.g., wordpressIAC, finance)
+- Keep Vagrantfile in the root of each VM directory
+description:
+globs:
+alwaysApply: false
+---

@@ -1,0 +1,52 @@
+# CentOS VM Configuration Patterns
+
+## Box Selection
+- Use `eurolinux-vagrant/centos-stream-9` for CentOS Stream 9
+- CentOS Stream provides rolling updates and latest packages
+
+## Package Management
+- Use `yum install` for package installation
+- Install packages with `-y` flag for non-interactive installation
+- Use `yum update` for system updates
+- Install development tools with `yum groupinstall "Development Tools"`
+
+## Service Management
+- Use `systemctl` for service management
+- Enable services with `systemctl enable`
+- Start services with `systemctl start`
+- Restart services with `systemctl restart`
+- Check service status with `systemctl status`
+
+## Web Server Configuration
+- Apache (httpd) is the primary web server
+- Use `systemctl start httpd` to start Apache
+- Use `systemctl enable httpd` to enable on boot
+- Configure virtual hosts in `/etc/httpd/conf.d/`
+- Document root is `/var/www/html/`
+
+## File Operations
+- Use `mkdir -p` for creating directories with parents
+- Use `cp -r` for recursive copying
+- Use `rm -rf` for recursive deletion
+- Use `wget` for downloading files
+- Use `unzip -o` for overwriting existing files
+
+## Temporary File Management
+- Use `/tmp/` directory for temporary files
+- Clean up temporary files after use
+- Use descriptive subdirectories in `/tmp/`
+
+## Network Configuration
+- Use private network IP 192.168.56.x range
+- Configure public network with bridge adapter
+- Use consistent network adapter naming
+
+## Security Considerations
+- Install security updates regularly
+- Configure firewall rules as needed
+- Use proper file permissions
+- Consider SELinux policies for production
+description:
+globs:
+alwaysApply: false
+---

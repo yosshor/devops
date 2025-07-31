@@ -1,0 +1,45 @@
+# Ubuntu VM Configuration Patterns
+
+## Box Selection
+- Use `ubuntu/focal64` for Ubuntu 20.04 LTS (wordpress, wordpressIAC)
+- Use `ubuntu/jammy64` for Ubuntu 22.04 LTS (ubuntu)
+- Prefer LTS versions for stability
+
+## Package Management
+- Use `apt update` and `apt install` for package installation
+- Install packages with `-y` flag for non-interactive installation
+- Use `sudo` for administrative commands
+
+## Service Management
+- Use `systemctl` for service management
+- Enable services with `systemctl enable`
+- Start services with `systemctl start`
+- Restart services with `systemctl restart`
+
+## Web Server Configuration
+- Apache2 is the primary web server
+- Use `a2ensite` to enable sites
+- Use `a2enmod` to enable modules
+- Use `a2dissite` to disable default sites
+- Configure virtual hosts in `/etc/apache2/sites-available/`
+
+## Database Configuration
+- MySQL is used for databases
+- Create databases with `mysql -u root -e 'CREATE DATABASE name;'`
+- Create users with proper privileges
+- Use `FLUSH PRIVILEGES` after user creation
+
+## File Permissions
+- Use `www-data` user for web content
+- Set proper ownership with `chown www-data:`
+- Use `sudo -u www-data` for web user operations
+
+## WordPress Specific
+- Download WordPress with `curl` and extract with `tar`
+- Configure wp-config.php with database settings
+- Use sed for configuration file modifications
+- Set proper file permissions for WordPress
+description:
+globs:
+alwaysApply: false
+---

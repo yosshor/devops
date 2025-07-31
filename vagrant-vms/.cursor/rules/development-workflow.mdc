@@ -1,0 +1,47 @@
+# Vagrant Development Workflow
+
+## Common Commands
+- `vagrant up` - Start a VM
+- `vagrant halt` - Stop a VM
+- `vagrant destroy` - Delete a VM
+- `vagrant reload` - Restart a VM
+- `vagrant provision` - Re-run provisioning
+- `vagrant ssh` - Connect to VM via SSH
+- `vagrant status` - Check VM status
+
+## Development Process
+1. Navigate to specific VM directory (e.g., `cd wordpressIAC`)
+2. Run `vagrant up` to start the VM
+3. Use `vagrant ssh` to connect and test
+4. Make changes to Vagrantfile if needed
+5. Run `vagrant reload --provision` to apply changes
+6. Use `vagrant destroy` to clean up when done
+
+## VM Management
+- Each VM runs independently
+- VMs can run simultaneously if resources allow
+- Use different IP ranges to avoid conflicts
+- Monitor resource usage with multiple VMs
+
+## Troubleshooting
+- Check VM status with `vagrant status`
+- View logs with `vagrant up --debug`
+- Connect to VM for manual troubleshooting
+- Use `vagrant destroy && vagrant up` for clean rebuild
+
+## Best Practices
+- Test provisioning scripts thoroughly
+- Use version control for Vagrantfiles
+- Document VM purposes and configurations
+- Keep VM configurations minimal and focused
+- Clean up VMs when not in use
+
+## Network Access
+- WordPress VMs: Access via private IP (192.168.56.x)
+- Finance VMs: Access via private IP (192.168.56.x)
+- All VMs have public network access
+- No port forwarding configured by default
+description:
+globs:
+alwaysApply: false
+---

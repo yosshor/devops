@@ -1,0 +1,32 @@
+# Vagrant VMs Project Structure
+
+This workspace contains multiple Vagrant VM configurations for different purposes:
+
+## VM Configurations
+
+### Basic VMs
+- [ubuntu/Vagrantfile](mdc:ubuntu/Vagrantfile) - Ubuntu Jammy 22.04 LTS with basic networking
+- [centos/Vagrantfile](mdc:centos/Vagrantfile) - CentOS Stream 9 with Apache and basic provisioning
+
+### Application VMs
+- [wordpress/Vagrantfile](mdc:wordpress/Vagrantfile) - Ubuntu Focal 20.04 LTS configured for WordPress (1.6GB RAM)
+- [finance/Vagrantfile](mdc:finance/Vagrantfile) - CentOS Stream 9 with finance website deployment
+
+### Infrastructure as Code (IAC) VMs
+- [wordpressIAC/Vagrantfile](mdc:wordpressIAC/Vagrantfile) - Complete WordPress stack with Apache, MySQL, PHP
+- [financeIAC/Vagrantfile](mdc:financeIAC/Vagrantfile) - Finance website with automated deployment
+
+## Network Configuration
+All VMs use:
+- Private network with specific IPs (192.168.56.x range)
+- Public network bridged to "Realtek PCIe GbE Family Controller"
+- No port forwarding configured by default
+
+## Common Patterns
+- Ubuntu VMs use `ubuntu/focal64` or `ubuntu/jammy64` boxes
+- CentOS VMs use `eurolinux-vagrant/centos-stream-9` box
+- All VMs have shell provisioning scripts for automated setup
+description:
+globs:
+alwaysApply: false
+---

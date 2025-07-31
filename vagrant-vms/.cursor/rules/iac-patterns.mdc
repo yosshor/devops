@@ -1,0 +1,56 @@
+# Infrastructure as Code (IAC) Patterns
+
+## Complete Stack Provisioning
+- Install all required packages in a single provisioning script
+- Configure services and start them automatically
+- Set up databases with proper users and permissions
+- Deploy applications with proper configuration
+
+## WordPress IAC Stack
+- Apache2 web server with PHP modules
+- MySQL database server
+- WordPress application deployment
+- Virtual host configuration
+- Database user creation and privileges
+- Configuration file automation
+
+## Finance Website IAC Stack
+- Apache (httpd) web server
+- Website deployment from external source
+- File extraction and deployment
+- Service configuration and restart
+
+## Automation Best Practices
+- Use inline shell scripts for simple configurations
+- Download and extract applications automatically
+- Configure services to start on boot
+- Set proper file permissions and ownership
+- Clean up temporary files after deployment
+
+## Configuration Management
+- Use sed for configuration file modifications
+- Create configuration files with heredoc syntax
+- Set environment-specific variables
+- Use consistent naming conventions
+
+## Service Dependencies
+- Install packages before configuring services
+- Start services in the correct order
+- Restart services after configuration changes
+- Enable services for automatic startup
+
+## Error Handling
+- Use `-y` flags for non-interactive installation
+- Use `-o` flags for overwriting existing files
+- Check for successful command execution
+- Provide meaningful error messages
+
+## Security Considerations
+- Create dedicated database users
+- Set proper file permissions
+- Use secure passwords in development
+- Configure services with minimal privileges
+description:
+globs:
+alwaysApply: false
+---
