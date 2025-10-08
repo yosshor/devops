@@ -1,0 +1,4 @@
+GroupId,GroupName,VpcId,Description,OwnerId,InboundRulesCount,OutboundRulesCount,Tags
+sg-07ffb9a31edf0f22a,web-sg,vpc-0529e903137aacb7f,web-sg,960422537815,3,1,
+sg-07bb75d11c01c2a87,launch-wizard-1,vpc-0529e903137aacb7f,launch-wizard-1 created 2025-08-12T06:13:02.380Z,960422537815,3,1,
+sg-0a5c7e2c157dd40b1,default,vpc-0529e903137aacb7f,default VPC security group,960422537815,1,1,
