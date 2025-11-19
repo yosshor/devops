@@ -81,7 +81,7 @@ pipeline {
                 nexusArtifactUploader(
                   nexusVersion: 'nexus3',
                   protocol: 'http',
-                  nexusUrl: 'your-private-aws-ip:8081',
+                  nexusUrl: '172.31.23.46:8081',
                   groupId: 'QA',
                   version: "${env.BUILD_ID}-${env.BUILD_TIMESTAMP}",
                   repository: 'vprofile-repo',
@@ -102,7 +102,7 @@ pipeline {
   post {
         always {
             echo 'Slack Notifications.'
-            slackSend channel: '#yourChannel',
+            slackSend channel: '#devposcicd',
                 color: COLOR_MAP[currentBuild.currentResult],
                 message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} \n More info at: ${env.BUILD_URL}"
         }
