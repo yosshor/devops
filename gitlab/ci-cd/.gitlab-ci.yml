@@ -1,0 +1,114 @@
+stages:
+    - build
+    - test
+    - security
+    - notify
+    - docker
+
+variables:
+    PROJECT_NAME: "devops"
+    JAVA_OPTS: ${JAVA_OPTIONS}
+
+# Build stage
+build-job:
+    stage: build
+    image: maven:3.9.9-eclipse-temurin-17
+    # only:
+        # - main
+    rules:
+        - if: '$CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "develop"'
+        # trigger on merge request
+        - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+        # trigger when started manually
+        - if: '$CI_PIPELINE_SOURCE == "web"'
+        # trigger on schedule
+        - if: '$CI_PIPELINE_SOURCE == "schedule"'
+        
+        # otherwise never run
+        - when: never
+
+    script:
+        - echo "Building the project name ${PROJECT_NAME}-building"
+        - echo "Java options ${JAVA_OPTS}"
+        - echo "my secret is that ${MY_SECRET}"
+        - echo "THE SOURCE OF THE PIPLINE TRIGGER IS $CI_PIPELINE_SOURCE FOR BRANCH $CI_COMMIT_BRANCH"
+        - mvn install
+    after_script:
+        - ls -la
+    artifacts:
+        paths:
+            - target/*.war
+        when: always
+
+
+
+# Test stage
+test-job:
+    stage: test
+    image: maven:3.9.9-eclipse-temurin-17
+    # only:
+        # - main
+    needs:
+        - build-job
+
+    rules:
+        - if: '$CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "develop"'
+        # trigger on merge request
+        - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+        # trigger when started manually
+        - if: '$CI_PIPELINE_SOURCE == "web"'
+        # trigger on schedule
+        - if: '$CI_PIPELINE_SOURCE == "schedule"'
+        
+        # otherwise never run
+        - when: never
+    script:
+        - echo "Running Unit Tests in the project ${PROJECT_NAME}-testing..."
+        - mvn test
+        - mvn checkstyle:checkstyle
+
+
+security-scan:
+    stage: security
+    image:
+        name: aquasec/trivy:latest
+        entrypoint: [""]
+    needs:
+        - build-job
+    script:
+        - trivy fs --format json --exit-code 0 --vuln-type os,library --output trivy-report.json .
+    after_script:
+        - ls -la
+    artifacts:
+        paths:
+            - trivy-report.json
+        when: always
+
+docker-build-publish:
+    stage: docker
+    image: docker:latest
+    services:
+        - docker:dind
+    needs:
+        - security-scan
+    variables:
+        DOCKER_TLS_CERTDIR: ""
+        IMAGE_TAG: $CI_COMMIT_SHA
+
+    script:
+        - echo "Logging into Gitlab Container Registry"
+        - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin $CI_REGISTRY 
+        - echo "Building Docker image with custom DockerFile..."
+        - docker build -f Docker-files/app/multistage/Dockerfile -t $CI_REGISTRY_IMAGE:$IMAGE_TAG .
+        - docker push $CI_REGISTRY_IMAGE:$IMAGE_TAG 
+    after_script:
+        - ls -la
+        - echo "Docker image $CI_REGISTRY_IMAGE:$IMAGE_TAG has been built and pushed to Gitlab Container Registry"
+    
+
+notify-on-failure:
+    stage: notify
+    script:
+        - echo "Build or Test job failed ${PROJECT_NAME}! Please check logs."
+    when: on_failure
+
