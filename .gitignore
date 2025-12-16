@@ -156,7 +156,7 @@ jspm_packages/
 *.tfstate
 *.tfstate.*
 .terraform/
-.terraform.lock.hcl
+# Note: .terraform.lock.hcl should be committed (dependency lock file)
 
 # Docker
 .dockerignore
