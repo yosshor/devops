@@ -22,6 +22,9 @@ resource "aws_instance" "web" {
       "sudo /tmp/web.sh",
     ]
   }
+  provisioner "local-exec" {
+    command = "echo ${self.private_ip} > private_ip.txt"
+  }
 
   connection {
     type        = "ssh"
@@ -38,3 +41,13 @@ resource "aws_ec2_instance_state" "web_state" {
   instance_id = aws_instance.web.id
   state       = "running"
 }   
+
+output "private_ip" {
+  value = aws_instance.web.private_ip
+  description = "Private IP address of the instance"
+}
+
+output "public_ip" {
+  value = aws_instance.web.public_ip
+  description = "Public IP address of the instance"
+}
