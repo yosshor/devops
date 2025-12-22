@@ -1,5 +1,5 @@
 resource "aws_instance" "web" {
-  ami                    = data.aws_ami.amiID.id
+  ami                    = var.amiID[var.region] #data.aws_ami.amiID.id
   instance_type          = var.instance_type
   key_name               = aws_key_pair.terraform-key.key_name
   vpc_security_group_ids = [aws_security_group.terraform-sg.id]

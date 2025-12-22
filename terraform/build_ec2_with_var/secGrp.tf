@@ -11,8 +11,14 @@ resource "aws_vpc_security_group_ingress_rule" "sshFromMyIP" {
   from_port         = 22
   to_port           = 22
   ip_protocol       = "tcp"
-#   cidr_ipv4         = "172.20.60.17/32"
-  cidr_ipv4         = "212.187.200.154/32"
+  cidr_ipv4         = var.ip4_address[0]
+}
+resource "aws_vpc_security_group_ingress_rule" "sshFromMyIP2" {
+  security_group_id = aws_security_group.terraform-sg.id
+  from_port         = 22
+  to_port           = 22
+  ip_protocol       = "tcp"
+  cidr_ipv4         = var.ip4_address[1]
 }
 
 
