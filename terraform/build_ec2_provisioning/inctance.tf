@@ -9,7 +9,30 @@ resource "aws_instance" "web" {
     Name    = "terraform-instance"
     Project = "terraform-project"
   }
+
+  provisioner "file" {
+    source      = "web.sh"
+    destination = "/tmp/web.sh"
+  }
+
+
+  provisioner "remote-exec" {
+    inline = [
+      "chmod +x /tmp/web.sh",
+      "sudo /tmp/web.sh",
+    ]
+  }
+
+  connection {
+    type        = "ssh"
+    host        = self.public_ip
+    user        = var.web_user
+    private_key = file("/terraform-key")
+  }
+
 }
+
+
 
 resource "aws_ec2_instance_state" "web_state" {
   instance_id = aws_instance.web.id

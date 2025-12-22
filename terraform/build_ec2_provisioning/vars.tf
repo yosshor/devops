@@ -28,5 +28,10 @@ variable "amiID" {
 
 variable "ip4_address" {
   type    = list(string)
-  default = ["0.0.0.0/32", "172.20.60.17/32"]
+  default = ["212.122.322.154/32", "172.20.60.17/32"]
+}
+
+
+variable "web_user" {
+  default = "ubuntu"
 }
