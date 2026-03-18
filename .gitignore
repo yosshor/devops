@@ -3,6 +3,8 @@
 *.box
 *.log
 
+*/*.pem
+
 # Java
 *.class
 *.jar
