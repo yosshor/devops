@@ -1,0 +1,29 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+Vagrant.configure("2") do |config|
+  config.vm.box = "kalilinux/rolling"
+  config.vm.hostname = "kali-hydra-srv"
+
+  config.vm.provider "hyperv" do |hv|
+    hv.vmname = "Kali-Hydra-Server"
+    hv.memory = 4096
+    hv.cpus = 2
+  end
+  
+  vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
+  vb.customize ["modifyvm", :id, "--draganddrop", "bidirectional"]
+
+  config.vm.provision "shell", inline: <<-SHELL
+    echo "Updating system and preparing Hydra..."
+    sudo apt-get update -y
+    sudo apt-get install -y hydra hydra-gtk seclists
+    if [ -f /usr/share/wordlists/rockyou.txt.gz ]; then
+      echo "Unzipping rockyou.txt..."
+      sudo gunzip -f /usr/share/wordlists/rockyou.txt.gz
+    fi
+    echo "Setup complete. Happy hunting!"
+  SHELL
+end
+
+# user - vagrant
+# pass - vagrant
