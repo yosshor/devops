@@ -1,0 +1,14 @@
+services:
+  web:
+    build: .
+    ports:
+      - "${APP_PORT}:5000"
+    volumes:
+      - .:/code
+
+    environment:
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+      - FLASK_ENV=development
+  redis:
+    image: redis:alpine
