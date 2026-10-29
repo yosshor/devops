@@ -12,34 +12,33 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=yossdbpass
 
-    yosscache01:   
-      image: memcached
-      container_name: yosscache01
+  yosscache01:   
+    image: memcached
+    container_name: yosscache01
+    ports:
+      - "11211:11211"
+
+  yossmq01:   
+    image: rabbitmq
+    container_name: yossmq01
+    ports:
+      - "5672:5672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+
+
+  yossapp:
+      build: 
+        context: ./Docker-files/app
+      image: yosscontainers/yossapp
+      container_name: yossapp
       ports:
-        - "11211:11211"
-  
-    yossmq01:   
-      image: rabbitmq
-      container_name: yossmq01
-      ports:
-        - "5672:5672"
-      environment:
-        - RABBITMQ_DEFAULT_USER=guest
-        - RABBITMQ_DEFAULT_PASS=guest
+        - "8080:8080"
+      volumes:
+        - yossappdata:/usr/local/tomcat/webapps
 
-
-    yossapp:
-        build: 
-          context: ./Docker-files/app
-        image: yosscontainers/yossapp
-        container_name: yossapp
-        ports:
-          - "8080:8080"
-        volumes:
-          - yossappdata:/usr/local/tomcat/webapps
-
-    
-    yossweb:
+  yossweb:
         build: 
           context: ./Docker-files/web
         image: yosscontainers/yossweb
