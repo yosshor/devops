@@ -35,8 +35,6 @@ services:
       container_name: yossapp
       ports:
         - "8080:8080"
-      volumes:
-        - yossappdata:/usr/local/tomcat/webapps
 
   yossweb:
         build: 
@@ -48,7 +46,6 @@ services:
 
 volumes:
   yossdbdata: {}
-  yossappdata: {}
 
   
 
